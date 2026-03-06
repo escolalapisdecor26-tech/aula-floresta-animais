@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 Animais da Floresta · Forest Animals</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a3a1a;
+    --green-mid: #2d6a2d;
+    --green-bright: #4caf50;
+    --green-light: #a8d5a2;
+    --green-pale: #e8f5e1;
+    --yellow: #ffd54f;
+    --orange: #ff8f00;
+    --brown: #795548;
+    --sand: #fff8e1;
+    --sky: #e3f2fd;
+    --turtle-green: #558b2f;
+    --turtle-shell: #827717;
+    --turtle-light: #dce775;
+    --gold: #f9a825;
+    --white: #ffffff;
+    --shadow: rgba(0,0,0,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--green-deep);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── ANIMATED FOREST BACKGROUND ── */
+  .forest-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 80%, #0d2b0d 0%, #1a3a1a 40%, #0d1f0d 100%);
+    overflow: hidden;
+  }
+  .leaf {
+    position: absolute;
+    width: 60px; height: 60px;
+    background: radial-gradient(circle, #4caf50, #2d6a2d);
+    border-radius: 50% 0 50% 0;
+    opacity: 0.15;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.12; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+  .leaf:nth-child(1)  { left:5%;  width:40px; height:40px; animation-duration:12s; animation-delay:0s; }
+  .leaf:nth-child(2)  { left:15%; width:55px; height:55px; animation-duration:15s; animation-delay:2s; }
+  .leaf:nth-child(3)  { left:30%; width:35px; height:35px; animation-duration:10s; animation-delay:4s; }
+  .leaf:nth-child(4)  { left:50%; width:65px; height:65px; animation-duration:18s; animation-delay:1s; }
+  .leaf:nth-child(5)  { left:65%; width:45px; height:45px; animation-duration:13s; animation-delay:6s; }
+  .leaf:nth-child(6)  { left:80%; width:38px; height:38px; animation-duration:11s; animation-delay:3s; }
+  .leaf:nth-child(7)  { left:90%; width:52px; height:52px; animation-duration:16s; animation-delay:5s; }
+  .leaf:nth-child(8)  { left:42%; width:30px; height:30px; animation-duration:9s;  animation-delay:7s; }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 32px 20px 24px;
+    animation: slideDown 0.6s ease;
+  }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--turtle-green), #33691e);
+    color: #dce775;
+    font-family: 'Baloo 2', cursive;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    border: 2px solid #dce775;
+  }
+  .header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 800;
+    color: var(--green-light);
+    line-height: 1.1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .header h1 span { color: var(--turtle-light); }
+  .header p {
+    font-size: 15px;
+    color: rgba(168,213,162,0.8);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+
+  /* ── DAY TABS ── */
+  .day-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0 28px;
+    animation: fadeIn 0.7s ease 0.2s both;
+  }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  .day-tab {
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(168,213,162,0.25);
+    border-radius: 16px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+    min-width: 110px;
+  }
+  .day-tab:hover { background: rgba(76,175,80,0.2); border-color: var(--green-light); }
+  .day-tab.active {
+    background: linear-gradient(135deg, var(--turtle-green), #33691e);
+    border-color: var(--turtle-light);
+    box-shadow: 0 4px 20px rgba(85,139,47,0.5);
+    transform: translateY(-2px);
+  }
+  .day-tab .tab-emoji { font-size: 26px; display: block; }
+  .day-tab .tab-name { font-size: 12px; font-weight: 800; color: var(--green-light); display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
+  .day-tab.active .tab-name { color: var(--turtle-light); }
+  .day-tab .tab-pt { font-size: 10px; color: rgba(168,213,162,0.6); display: block; }
+  .day-tab.active .tab-pt { color: rgba(220,231,117,0.8); }
+
+  /* ── HERO ANIMAL CARD ── */
+  .hero-card {
+    background: linear-gradient(145deg, #1f4a1f, #0d2b0d);
+    border: 3px solid var(--turtle-shell);
+    border-radius: 28px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  @keyframes popIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(130,119,23,0.3), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-top {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .turtle-svg-wrap {
+    flex-shrink: 0;
+    width: 160px; height: 160px;
+    position: relative;
+    cursor: pointer;
+  }
+  .turtle-svg-wrap:hover .turtle-body { transform: scale(1.05); }
+  .turtle-body { transition: transform 0.3s; transform-origin: center; }
+
+  /* Turtle SVG animation */
+  @keyframes turtleWalk {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-4px) rotate(-2deg); }
+    75% { transform: translateY(-2px) rotate(2deg); }
+  }
+  .turtle-container { animation: turtleWalk 3s ease-in-out infinite; }
+
+  .hero-info { flex: 1; min-width: 200px; }
+  .hero-info .animal-day {
+    font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--turtle-light); margin-bottom: 6px;
+  }
+  .hero-info .animal-name-en {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 800;
+    color: var(--turtle-light);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(220,231,117,0.4);
+  }
+  .hero-info .animal-name-pt {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(20px, 4vw, 32px);
+    font-weight: 600;
+    color: var(--green-light);
+    margin-top: 4px;
+  }
+
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--turtle-shell), #5d4037);
+    color: var(--turtle-light);
+    border: none; border-radius: 50px;
+    padding: 10px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+  .audio-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  .audio-btn:active { transform: scale(0.97); }
+  .audio-btn .play-icon { font-size: 18px; }
+
+  .audio-btn.playing {
+    background: linear-gradient(135deg, var(--green-mid), #1b5e20);
+    animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{box-shadow:0 4px 14px rgba(76,175,80,0.3);} 50%{box-shadow:0 4px 28px rgba(76,175,80,0.6);} }
+
+  /* ── FACT STRIP ── */
+  .fact-strip {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .fact-chip {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(220,231,117,0.3);
+    border-radius: 12px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--green-light);
+    font-weight: 600;
+  }
+  .fact-chip span { color: var(--turtle-light); font-weight: 800; }
+
+  /* ── VOCABULARY GRID ── */
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px; font-weight: 800;
+    color: var(--green-light);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--turtle-shell), transparent);
+    border-radius: 2px;
+  }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.5s ease 0.5s both;
+  }
+
+  .vocab-card {
+    background: linear-gradient(145deg, #1f4a1f, #162e16);
+    border: 2px solid rgba(168,213,162,0.2);
+    border-radius: 18px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .vocab-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: var(--turtle-light);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .vocab-card.playing-card {
+    border-color: var(--green-bright);
+    background: linear-gradient(145deg, #1b5e20, #1f4a1f);
+    transform: scale(1.05);
+  }
+  .vocab-card.turtle-featured {
+    border-color: var(--turtle-shell);
+    background: linear-gradient(145deg, #33401a, #1f2f0a);
+    box-shadow: 0 0 20px rgba(130,119,23,0.3);
+  }
+  .vocab-card .v-emoji { font-size: 32px; display: block; margin-bottom: 8px; line-height: 1; }
+  .vocab-card .v-en {
+    font-family: 'Baloo 2', cursive;
+    font-size: 17px; font-weight: 800;
+    color: var(--turtle-light);
+    display: block; margin-bottom: 2px;
+  }
+  .vocab-card.turtle-featured .v-en { color: #dce775; font-size: 20px; }
+  .vocab-card .v-pt {
+    font-size: 13px; font-weight: 700;
+    color: var(--green-light);
+    display: block;
+  }
+  .vocab-card .v-audio-hint {
+    position: absolute; bottom: 6px; right: 8px;
+    font-size: 10px; opacity: 0.5; color: var(--green-light);
+  }
+
+  /* ── COMMAND CARDS ── */
+  .commands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.5s ease 0.6s both;
+  }
+
+  .cmd-card {
+    background: linear-gradient(145deg, #2a1f00, #1a1300);
+    border: 2px solid rgba(249,168,37,0.3);
+    border-radius: 18px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .cmd-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold);
+    box-shadow: 0 8px 24px rgba(249,168,37,0.2);
+  }
+  .cmd-card .cmd-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+  .cmd-card .cmd-en {
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px; font-weight: 800;
+    color: var(--gold);
+    display: block; margin-bottom: 3px;
+  }
+  .cmd-card .cmd-pt {
+    font-size: 13px; font-weight: 700;
+    color: rgba(255,213,79,0.7);
+    display: block;
+  }
+  .cmd-card .cmd-context {
+    font-size: 11px; color: rgba(255,213,79,0.45);
+    margin-top: 6px; display: block; font-style: italic;
+  }
+  .cmd-card .v-audio-hint { position: absolute; bottom: 6px; right: 8px; font-size: 10px; opacity: 0.4; color: var(--gold); }
+
+  /* ── COLORS SECTION ── */
+  .colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.5s ease 0.7s both;
+  }
+  .color-card {
+    border-radius: 16px;
+    padding: 14px 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+    border: 2px solid transparent;
+  }
+  .color-card:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+  .color-card .c-swatch {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    border: 3px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .color-card .c-en {
+    font-family: 'Baloo 2', cursive;
+    font-size: 15px; font-weight: 800;
+    color: white; display: block;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  .color-card .c-pt {
+    font-size: 12px; color: rgba(255,255,255,0.8);
+    display: block; font-weight: 600;
+  }
+
+  /* ── MINI ANIMALS ROW ── */
+  .animals-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.5s ease 0.8s both;
+  }
+  .animal-mini {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(168,213,162,0.15);
+    border-radius: 16px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .animal-mini:hover { background: rgba(76,175,80,0.15); border-color: var(--green-light); transform: translateY(-3px); }
+  .animal-mini.active-day { border-color: var(--turtle-shell); background: rgba(130,119,23,0.2); }
+  .animal-mini .am-emoji { font-size: 28px; display: block; }
+  .animal-mini .am-en { font-size: 11px; font-weight: 800; color: var(--green-light); display: block; margin-top: 4px; }
+  .animal-mini .am-pt { font-size: 10px; color: rgba(168,213,162,0.6); display: block; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--green-mid);
+    color: white; border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 14px; font-weight: 700;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 999;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── ACTIVITY BOX ── */
+  .activity-box {
+    background: linear-gradient(145deg, #0d2b0d, #1a3a1a);
+    border: 2px solid rgba(76,175,80,0.3);
+    border-radius: 20px;
+    padding: 22px 22px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.5s ease 0.9s both;
+  }
+  .activity-box h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 18px; font-weight: 800;
+    color: var(--green-light); margin-bottom: 14px;
+  }
+  .activity-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .activity-list li {
+    background: rgba(255,255,255,0.04);
+    border-left: 4px solid var(--turtle-shell);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 14px; color: var(--green-light);
+    font-weight: 600;
+  }
+  .activity-list li strong { color: var(--turtle-light); }
+
+  /* ── SONG BOX ── */
+  .song-box {
+    background: linear-gradient(135deg, #0a1a2e, #1a2e0a);
+    border: 2px solid rgba(91,155,213,0.4);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.5s ease 1s both;
+  }
+  .song-box h3 { font-family: 'Baloo 2', cursive; font-size: 17px; color: #90caf9; margin-bottom: 12px; }
+  .song-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 12px;
+    cursor: pointer; margin-bottom: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(144,202,249,0.2);
+    transition: all 0.2s;
+  }
+  .song-item:hover { background: rgba(144,202,249,0.1); transform: translateX(4px); }
+  .song-item .s-emoji { font-size: 20px; }
+  .song-item .s-text { flex: 1; }
+  .song-item .s-name { font-size: 14px; font-weight: 800; color: #90caf9; display: block; }
+  .song-item .s-desc { font-size: 12px; color: rgba(144,202,249,0.6); display: block; }
+  .song-item .s-play { font-size: 18px; color: rgba(144,202,249,0.5); }
+
+  @media(max-width:600px) {
+    .hero-top { flex-direction: column; align-items: center; text-align: center; }
+    .turtle-svg-wrap { width:130px; height:130px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="forest-bg">
+  <div class="leaf"></div><div class="leaf"></div><div class="leaf"></div>
+  <div class="leaf"></div><div class="leaf"></div><div class="leaf"></div>
+  <div class="leaf"></div><div class="leaf"></div>
+</div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">🌿 A Floresta se Move · The Forest Moves</div>
+    <h1>Forest Animals<br><span>Animais da Floresta</span></h1>
+    <p>Infantil III · Miss Gabi & Miss Kauani · Bilíngue 🇧🇷🇬🇧</p>
+  </div>
+
+  <!-- DAY TABS -->
+  <div class="day-tabs" id="dayTabs">
+    <div class="day-tab active" data-day="1" onclick="setDay(1)">
+      <span class="tab-emoji">🐢</span>
+      <span class="tab-name">Day 1</span>
+      <span class="tab-pt">Dia 1</span>
+    </div>
+    <div class="day-tab" data-day="2" onclick="setDay(2)">
+      <span class="tab-emoji">🦜</span>
+      <span class="tab-name">Day 2</span>
+      <span class="tab-pt">Dia 2</span>
+    </div>
+    <div class="day-tab" data-day="3" onclick="setDay(3)">
+      <span class="tab-emoji">🐸</span>
+      <span class="tab-name">Day 3</span>
+      <span class="tab-pt">Dia 3</span>
+    </div>
+    <div class="day-tab" data-day="4" onclick="setDay(4)">
+      <span class="tab-emoji">🦋</span>
+      <span class="tab-name">Day 4</span>
+      <span class="tab-pt">Dia 4</span>
+    </div>
+    <div class="day-tab" data-day="5" onclick="setDay(5)">
+      <span class="tab-emoji">🦊</span>
+      <span class="tab-name">Day 5</span>
+      <span class="tab-pt">Dia 5</span>
+    </div>
+  </div>
+
+  <!-- HERO CARD -->
+  <div class="hero-card" id="heroCard">
+    <div class="hero-top">
+      <div class="turtle-svg-wrap" onclick="speakWord(currentAnimal.en, currentAnimal.pt)" title="Clique para ouvir!">
+        <div class="turtle-container" id="animalSvg">
+          <!-- TURTLE SVG -->
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+            <!-- Shadow -->
+            <ellipse cx="80" cy="148" rx="42" ry="7" fill="rgba(0,0,0,0.25)"/>
+            <!-- Back left leg -->
+            <ellipse cx="42" cy="115" rx="14" ry="10" fill="#558b2f" transform="rotate(-30 42 115)"/>
+            <ellipse cx="36" cy="122" rx="8" ry="6" fill="#689f38" transform="rotate(-30 36 122)"/>
+            <!-- Back right leg -->
+            <ellipse cx="118" cy="115" rx="14" ry="10" fill="#558b2f" transform="rotate(30 118 115)"/>
+            <ellipse cx="124" cy="122" rx="8" ry="6" fill="#689f38" transform="rotate(30 124 122)"/>
+            <!-- Front left leg -->
+            <ellipse cx="38" cy="90" rx="14" ry="10" fill="#558b2f" transform="rotate(-20 38 90)"/>
+            <ellipse cx="30" cy="96" rx="9" ry="6" fill="#689f38" transform="rotate(-20 30 96)"/>
+            <!-- Front right leg -->
+            <ellipse cx="122" cy="90" rx="14" ry="10" fill="#558b2f" transform="rotate(20 122 90)"/>
+            <ellipse cx="130" cy="96" rx="9" ry="6" fill="#689f38" transform="rotate(20 130 96)"/>
+            <!-- Body base -->
+            <ellipse cx="80" cy="100" rx="50" ry="36" fill="#558b2f"/>
+            <!-- Shell base -->
+            <ellipse cx="80" cy="96" rx="46" ry="34" fill="#827717"/>
+            <!-- Shell highlight gradient -->
+            <ellipse cx="80" cy="96" rx="44" ry="32" fill="url(#shellGrad)"/>
+            <!-- Shell hexagonal pattern -->
+            <polygon points="80,68 92,75 92,89 80,96 68,89 68,75" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="80,68 92,75 80,68" fill="#c0ca33" opacity="0.4"/>
+            <polygon points="92,75 104,78 98,90 92,89" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="68,75 56,78 62,90 68,89" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="92,89 98,90 94,102 80,96" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="68,89 62,90 66,102 80,96" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="80,96 94,102 88,114 72,114 66,102" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="104,78 112,86 98,90" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <polygon points="56,78 48,86 62,90" fill="#9e9d24" stroke="#6d6000" stroke-width="1.5"/>
+            <!-- Shell shine -->
+            <ellipse cx="75" cy="80" rx="12" ry="8" fill="rgba(255,255,255,0.12)" transform="rotate(-20 75 80)"/>
+            <!-- Neck -->
+            <ellipse cx="80" cy="72" rx="14" ry="12" fill="#558b2f"/>
+            <!-- Head -->
+            <ellipse cx="80" cy="60" rx="18" ry="15" fill="#689f38"/>
+            <!-- Head shine -->
+            <ellipse cx="75" cy="55" rx="6" ry="5" fill="rgba(255,255,255,0.15)" transform="rotate(-20 75 55)"/>
+            <!-- Eyes -->
+            <circle cx="73" cy="57" r="5" fill="#1a1a0a"/>
+            <circle cx="87" cy="57" r="5" fill="#1a1a0a"/>
+            <circle cx="74.5" cy="55.5" r="2" fill="white"/>
+            <circle cx="88.5" cy="55.5" r="2" fill="white"/>
+            <circle cx="75" cy="56" r="1" fill="#222"/>
+            <circle cx="89" cy="56" r="1" fill="#222"/>
+            <!-- Smile -->
+            <path d="M73 65 Q80 70 87 65" stroke="#558b2f" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Nostrils -->
+            <circle cx="77" cy="62" r="1.2" fill="#558b2f"/>
+            <circle cx="83" cy="62" r="1.2" fill="#558b2f"/>
+            <!-- Tail -->
+            <path d="M80 128 Q84 136 80 140 Q76 136 80 128" fill="#558b2f"/>
+            <defs>
+              <radialGradient id="shellGrad" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#cddc39" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero-info">
+        <div class="animal-day" id="heroDayLabel">⭐ DAY 1 ANIMAL · ANIMAL DO DIA 1</div>
+        <div class="animal-name-en" id="heroNameEn">Turtle</div>
+        <div class="animal-name-pt" id="heroNamePt">Tartaruga</div>
+        <button class="audio-btn" id="mainAudioBtn" onclick="speakHero()">
+          <span class="play-icon">🔊</span>
+          <span id="audioBtnText">Ouça & Repita · Listen & Repeat</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="fact-strip" id="factStrip">
+      <div class="fact-chip">🐢 <span>Slow · Lento</span></div>
+      <div class="fact-chip">🌊 <span>Swims · Nada</span></div>
+      <div class="fact-chip">🥚 <span>Lays eggs · Põe ovos</span></div>
+      <div class="fact-chip">🛡️ <span>Shell · Carapaça</span></div>
+      <div class="fact-chip">🌿 <span>Forest & water · Floresta</span></div>
+    </div>
+  </div>
+
+  <!-- VOCABULARY -->
+  <div class="section-title">📚 Vocabulary · Vocabulário</div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+
+  <!-- COMMANDS -->
+  <div class="section-title">🗣️ Commands · Comandos</div>
+  <div class="commands-grid" id="commandsGrid"></div>
+
+  <!-- COLORS -->
+  <div class="section-title">🎨 Colors · Cores</div>
+  <div class="colors-grid" id="colorsGrid"></div>
+
+  <!-- ALL ANIMALS -->
+  <div class="section-title">🌿 Forest Animals · Animais da Floresta</div>
+  <div class="animals-row" id="animalsRow"></div>
+
+  <!-- ACTIVITIES -->
+  <div class="activity-box" id="activityBox">
+    <h3>🎯 Today's Activities · Atividades do Dia</h3>
+    <ul class="activity-list" id="activityList"></ul>
+  </div>
+
+  <!-- SONGS -->
+  <div class="song-box">
+    <h3>🎵 Songs of the Day · Músicas do Dia</h3>
+    <div id="songsList"></div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- DEBUG PANEL (remover após diagnóstico) -->
+<div id="debugPanel" style="position:fixed;top:10px;right:10px;z-index:9999;background:#000;color:#0f0;font-family:monospace;font-size:11px;padding:10px;border-radius:8px;max-width:280px;display:none;">
+  <div style="color:#ff0;font-weight:bold;margin-bottom:6px">🔍 TTS DEBUG</div>
+  <div id="debugContent"></div>
+  <button onclick="document.getElementById('debugPanel').style.display='none'" style="margin-top:8px;background:#333;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer">Fechar</button>
+</div>
+<button onclick="runDebug()" style="position:fixed;bottom:80px;right:16px;z-index:9999;background:#ff5722;color:white;border:none;border-radius:50px;padding:10px 18px;font-size:13px;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,0.4);cursor:pointer">🔍 Debug TTS</button>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────
+const ANIMALS = [
+  { id:1, en:'Turtle',      pt:'Tartaruga',  emoji:'🐢', day:1, featured:true,
+    facts:['Slow · Lento','Swims · Nada','Lays eggs · Põe ovos','Shell · Carapaça','Forest & water · Floresta'],
+    svgId:'turtle',
+    activities:[
+      '<strong>Warm-up:</strong> "Hello Turtle!" — mime slow turtle walking around the room / Imitar a tartaruga andando devagar pela sala',
+      '<strong>Presentation:</strong> Show turtle SVG, say "Turtle / Tartaruga" — clap syllables: TUR-TLE / TAR-TA-RU-GA',
+      '<strong>Practice:</strong> "Walk like a turtle! Ande como uma tartaruga!" — slow movement exploration',
+      '<strong>Production:</strong> Draw & colour your turtle shell · Desenhe e pinte a carapaça da sua tartaruga',
+      '<strong>Wrap-up:</strong> "Goodbye turtle! She is slow but she always arrives! / Ela é lenta mas sempre chega!"',
+    ],
+    songs:[
+      {emoji:'🎵', name:'Walking Walking',             desc:'Super Simple Songs — movement & actions', url:'https://www.youtube.com/watch?v=fPMjnlTEZwU'},
+      {emoji:'🎶', name:'Five Little Speckled Frogs',  desc:'Super Simple Songs — counting & jumping',  url:'https://www.youtube.com/watch?v=TtX8yVEF0-w'},
+      {emoji:'🎵', name:'Walking In The Jungle',       desc:'Super Simple Songs — animal & action vocab',url:'https://www.youtube.com/watch?v=GoSq-yZcJ-4'},
+    ]
+  },
+  { id:2, en:'Parrot',      pt:'Papagaio',   emoji:'🦜', day:2, featured:false,
+    facts:['Colourful · Colorido','Talks · Fala','Flies · Voa','Forest bird · Ave da floresta'],
+    activities:[
+      '<strong>Warm-up:</strong> "Parrot says!" — version of Simon Says with parrot voice',
+      '<strong>Presentation:</strong> "Parrot / Papagaio" — repeat after me in parrot voices!',
+      '<strong>Practice:</strong> Colour the parrot with forest colours · Pintar com cores da floresta',
+      '<strong>Production:</strong> Make a parrot mask · Fazer uma máscara de papagaio',
+      '<strong>Wrap-up:</strong> "Goodbye parrot! Fly away! / Tchau papagaio, voe!"',
+    ],
+    songs:[
+      {emoji:'🎵', name:'Walking In The Jungle',  desc:'Super Simple Songs — animal vocab',      url:'https://www.youtube.com/watch?v=GoSq-yZcJ-4'},
+      {emoji:'🎶', name:'If You\'re Happy',        desc:'Super Simple Songs — emotions & actions', url:'https://www.youtube.com/watch?v=71hqRT9U0wg'},
+    ]
+  },
+  { id:3, en:'Frog',        pt:'Sapo',        emoji:'🐸', day:3, featured:false,
+    facts:['Jumps · Pula','Croaks · Canta','Green · Verde','Lives near water · Perto da água'],
+    activities:[
+      '<strong>Warm-up:</strong> Jump like a frog! Pule como um sapo!',
+      '<strong>Presentation:</strong> "Frog / Sapo" — ribbit ribbit!',
+      '<strong>Practice:</strong> Frog jump race across the room!',
+      '<strong>Production:</strong> Origami frog · Sapo de origami',
+      '<strong>Wrap-up:</strong> "Ribbit means hello! In frog language / Na língua do sapo"',
+    ],
+    songs:[
+      {emoji:'🎵', name:'Five Little Speckled Frogs', desc:'Super Simple Songs — counting + jumping', url:'https://www.youtube.com/watch?v=TtX8yVEF0-w'},
+      {emoji:'🎶', name:'Walking In The Jungle',      desc:'Super Simple Songs — jungle animals',    url:'https://www.youtube.com/watch?v=GoSq-yZcJ-4'},
+    ]
+  },
+  { id:4, en:'Butterfly',   pt:'Borboleta',   emoji:'🦋', day:4, featured:false,
+    facts:['Beautiful · Linda','Flies · Voa','Flowers · Flores','Caterpillar first · Lagarta antes'],
+    activities:[
+      '<strong>Warm-up:</strong> Fly like a butterfly! Voe como uma borboleta!',
+      '<strong>Presentation:</strong> "Butterfly / Borboleta" — wing arms!',
+      '<strong>Practice:</strong> Symmetry wings painting · Pintura simétrica de asas',
+      '<strong>Production:</strong> Butterfly life cycle art',
+      '<strong>Wrap-up:</strong> "She was a caterpillar — now she flies! / Era uma lagarta — agora voa!"',
+    ],
+    songs:[
+      {emoji:'🎵', name:'Flitter-Flutter Butterflies', desc:'Pinkfong Songs for Children — movement & flight', url:'https://www.youtube.com/watch?v=l1B49em1vPU'},
+      {emoji:'🎶', name:'Walking In The Jungle',       desc:'Super Simple Songs — animal vocab',               url:'https://www.youtube.com/watch?v=GoSq-yZcJ-4'},
+    ]
+  },
+  { id:5, en:'Fox',         pt:'Raposa',      emoji:'🦊', day:5, featured:false,
+    facts:['Smart · Esperta','Runs fast · Corre rápido','Orange · Laranja','Tails · Cauda'],
+    activities:[
+      '<strong>Warm-up:</strong> Tiptoe like a fox! Ande na ponta dos pés como a raposa!',
+      '<strong>Presentation:</strong> "Fox / Raposa" — sneaky fox walk',
+      '<strong>Practice:</strong> Fox story drama',
+      '<strong>Production:</strong> Fox puppet · Fantoche de raposa',
+      '<strong>Wrap-up:</strong> "The fox is clever! / A raposa é esperta!"',
+    ],
+    songs:[
+      {emoji:'🎵', name:'Walking In The Forest',       desc:'Super Simple Songs — forest animals', url:'https://www.youtube.com/watch?v=xbSSm_p782c'},
+      {emoji:'🎶', name:'Head Shoulders Knees & Toes', desc:'Super Simple Songs — body parts',     url:'https://www.youtube.com/watch?v=RuqvGiZi0qg'},
+    ]
+  },
+];
+
+const VOCAB_TURTLE = [
+  {emoji:'🐢', en:'Turtle',     pt:'Tartaruga',   featured:true},
+  {emoji:'🛡️', en:'Shell',      pt:'Carapaça',    featured:false},
+  {emoji:'🦶', en:'Slow',       pt:'Lento',        featured:false},
+  {emoji:'💧', en:'Water',      pt:'Água',         featured:false},
+  {emoji:'🌿', en:'Forest',     pt:'Floresta',     featured:false},
+  {emoji:'🥚', en:'Egg',        pt:'Ovo',          featured:false},
+  {emoji:'🏊', en:'Swim',       pt:'Nadar',        featured:false},
+  {emoji:'🌈', en:'Green',      pt:'Verde',        featured:false},
+  {emoji:'🔍', en:'Look',       pt:'Olhar',        featured:false},
+  {emoji:'👏', en:'Clap',       pt:'Bater palma',  featured:false},
+  {emoji:'🐾', en:'Move',       pt:'Mover',        featured:false},
+  {emoji:'🌱', en:'Leaf',       pt:'Folha',        featured:false},
+];
+
+const VOCAB_ALL = {
+  1: VOCAB_TURTLE,
+  2: [{emoji:'🦜',en:'Parrot',pt:'Papagaio'},{emoji:'🪶',en:'Feather',pt:'Pena'},{emoji:'🌈',en:'Colourful',pt:'Colorido'},{emoji:'🗣️',en:'Talk',pt:'Falar'},{emoji:'🍃',en:'Tree',pt:'Árvore'},{emoji:'✈️',en:'Fly',pt:'Voar'}],
+  3: [{emoji:'🐸',en:'Frog',pt:'Sapo'},{emoji:'💚',en:'Green',pt:'Verde'},{emoji:'🎵',en:'Croak',pt:'Coaxar'},{emoji:'💧',en:'Pond',pt:'Lagoa'},{emoji:'🦗',en:'Bug',pt:'Inseto'},{emoji:'⬆️',en:'Jump',pt:'Pular'}],
+  4: [{emoji:'🦋',en:'Butterfly',pt:'Borboleta'},{emoji:'🌸',en:'Flower',pt:'Flor'},{emoji:'🐛',en:'Caterpillar',pt:'Lagarta'},{emoji:'🪺',en:'Wings',pt:'Asas'},{emoji:'🌺',en:'Nectar',pt:'Néctar'},{emoji:'🔄',en:'Transform',pt:'Transformar'}],
+  5: [{emoji:'🦊',en:'Fox',pt:'Raposa'},{emoji:'🍂',en:'Orange',pt:'Laranja'},{emoji:'🏃',en:'Run',pt:'Correr'},{emoji:'🌙',en:'Night',pt:'Noite'},{emoji:'🦴',en:'Hunt',pt:'Caçar'},{emoji:'🌳',en:'Trees',pt:'Árvores'}],
+};
+
+const COMMANDS = [
+  {emoji:'👂', en:'Listen!',       pt:'Escute!',         ctx:'Preste atenção / Pay attention'},
+  {emoji:'🔁', en:'Repeat!',       pt:'Repita!',          ctx:'Diga de novo / Say it again'},
+  {emoji:'👆', en:'Point!',        pt:'Aponte!',          ctx:'Aponte o animal / Point the animal'},
+  {emoji:'🚶', en:'Walk!',         pt:'Ande!',            ctx:'Like the turtle! Como a tartaruga!'},
+  {emoji:'🛑', en:'Stop!',         pt:'Pare!',            ctx:'Freeze like a shell / Carapaça!'},
+  {emoji:'🎨', en:'Colour!',       pt:'Pinte!',           ctx:'Your turtle green / Verde!'},
+  {emoji:'✋', en:'Show me!',       pt:'Me mostre!',       ctx:'Your shell drawing / Desenho'},
+  {emoji:'🤫', en:'Shhh, listen!', pt:'Shh, escute!',    ctx:'Forest sounds / Sons da floresta'},
+  {emoji:'🙌', en:'Well done!',    pt:'Muito bem!',       ctx:'Parabéns! Bravo!'},
+  {emoji:'🔊', en:'Louder!',       pt:'Mais alto!',       ctx:'Say it loud / Fale mais alto'},
+  {emoji:'🐢', en:'Turtle walk!',  pt:'Ande de tartaruga!',ctx:'Slow and steady / Devagar'},
+  {emoji:'👀', en:'Look!',         pt:'Olhe!',            ctx:'At the turtle / Para a tartaruga'},
+];
+
+const COLORS = [
+  {en:'Green',     pt:'Verde',     hex:'#4caf50', bg:'#1b5e20'},
+  {en:'Brown',     pt:'Marrom',    hex:'#795548', bg:'#3e2723'},
+  {en:'Yellow',    pt:'Amarelo',   hex:'#fdd835', bg:'#f57f17'},
+  {en:'Blue',      pt:'Azul',      hex:'#42a5f5', bg:'#0d47a1'},
+  {en:'Orange',    pt:'Laranja',   hex:'#ff7043', bg:'#bf360c'},
+  {en:'Red',       pt:'Vermelho',  hex:'#ef5350', bg:'#b71c1c'},
+  {en:'Black',     pt:'Preto',     hex:'#424242', bg:'#212121'},
+  {en:'White',     pt:'Branco',    hex:'#f5f5f5', bg:'#9e9e9e'},
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────
+let currentDay = 1;
+let currentAnimal = ANIMALS[0];
+
+// ─── SPEECH ENGINE ───────────────────────────────────────────────────────
+//
+// Backend: ResponsiveVoice (CDN gratuita)
+//   • PT-BR: "Brazilian Portuguese Female" — funciona em Android sem instalar vozes
+//   • EN-US: "US English Female"
+//   • Carrega via script externo antes deste bloco
+//
+// Fallback: Web Speech API caso ResponsiveVoice não carregue (ex: offline)
+
+const WS = ('speechSynthesis' in window);
+
+// ── Seleção de vozes ─────────────────────────────────────────────────────
+// Dispositivos Samsung expõem vozes com lang no formato "por-BRA-f00"
+// em vez do padrão "pt-BR". A busca precisa cobrir ambos os formatos.
+
+function findVoice(hints) {
+  // hints: array de prefixos/substrings a tentar, em ordem de preferência
+  const voices = WS ? window.speechSynthesis.getVoices() : [];
+  for (const hint of hints) {
+    const v = voices.find(v => v.lang.toLowerCase().startsWith(hint));
+    if (v) return v;
+  }
+  return null;
+}
+
+function getVoicePT() {
+  return findVoice(['pt-br', 'pt', 'por-bra', 'por']);
+}
+
+function getVoiceEN() {
+  return findVoice(['en-us', 'en', 'eng-usa', 'eng']);
+}
+
+// ── speakEN ──────────────────────────────────────────────────────────────
+function speakEN(text, onDone) {
+  if (!WS) { if (onDone) onDone(); return; }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  const voice = getVoiceEN();
+  if (voice) { utt.voice = voice; utt.lang = voice.lang; }
+  else { utt.lang = 'en-US'; }
+  utt.rate = 0.85;
+  utt.onend  = () => { if (onDone) onDone(); };
+  utt.onerror = () => { if (onDone) onDone(); };
+  window.speechSynthesis.speak(utt);
+}
+
+// ── speakPT ──────────────────────────────────────────────────────────────
+function speakPT(text, onDone) {
+  if (!WS) { if (onDone) onDone(); return; }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  const voice = getVoicePT();
+  if (voice) { utt.voice = voice; utt.lang = voice.lang; }
+  else { utt.lang = 'pt-BR'; }
+  utt.rate = 0.85;
+  utt.onend  = () => { if (onDone) onDone(); };
+  utt.onerror = () => { if (onDone) onDone(); };
+  window.speechSynthesis.speak(utt);
+}
+
+// ── API pública ──────────────────────────────────────────────────────────
+function speak(textEN, textPT, onDone) {
+  speakEN(textEN, () => speakPT(textPT, onDone));
+}
+
+function speakSingle(text, lang, label) {
+  if (lang.startsWith('pt')) speakPT(text, null);
+  else speakEN(text, null);
+  showToast('🔊 ' + label);
+}
+
+function speakHero() {
+  const btn = document.getElementById('mainAudioBtn');
+  btn.classList.add('playing');
+  document.getElementById('audioBtnText').textContent = '🔊 Playing...';
+  speak(currentAnimal.en, currentAnimal.pt, () => {
+    btn.classList.remove('playing');
+    document.getElementById('audioBtnText').textContent = 'Ouça & Repita · Listen & Repeat';
+  });
+  showToast('🔊 ' + currentAnimal.en + ' / ' + currentAnimal.pt);
+}
+
+function speakWord(en, pt) {
+  speak(en, pt, null);
+  showToast('🔊 ' + en + ' · ' + pt);
+}
+
+function speakCommand(en, pt) {
+  speak(en, pt, null);
+  showToast('🔊 ' + en + ' · ' + pt);
+}
+
+function speakColor(en, pt) {
+  speak(en, pt, null);
+  showToast('🎨 ' + en + ' · ' + pt);
+}
+
+// ─── DEBUG ───────────────────────────────────────────────────────────────
+function runDebug() {
+  const lines = [];
+  lines.push('WebSpeech: ' + ('speechSynthesis' in window));
+  const vPT = getVoicePT();
+  const vEN = getVoiceEN();
+  lines.push('Voz PT: ' + (vPT ? vPT.lang + ' / ' + vPT.name : 'NÃO ENCONTRADA'));
+  lines.push('Voz EN: ' + (vEN ? vEN.lang + ' / ' + vEN.name : 'NÃO ENCONTRADA'));
+  if ('speechSynthesis' in window) {
+    const all = window.speechSynthesis.getVoices();
+    lines.push('Todas as vozes (' + all.length + '):');
+    all.slice(0,10).forEach(v => lines.push('  • ' + v.lang + ' ' + v.name));
+    if (all.length > 10) lines.push('  ...mais ' + (all.length-10));
+  }
+  document.getElementById('debugContent').innerHTML = lines.join('<br>');
+  document.getElementById('debugPanel').style.display = 'block';
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ─── SET DAY ─────────────────────────────────────────────────────────────
+function setDay(day) {
+  currentDay = day;
+  currentAnimal = ANIMALS[day - 1];
+
+  // Update tabs
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-day="${day}"]`).classList.add('active');
+
+  // Update hero
+  document.getElementById('heroDayLabel').textContent = `⭐ DAY ${day} ANIMAL · ANIMAL DO DIA ${day}`;
+  document.getElementById('heroNameEn').textContent = currentAnimal.en;
+  document.getElementById('heroNamePt').textContent = currentAnimal.pt;
+  document.getElementById('audioBtnText').textContent = 'Ouça & Repita · Listen & Repeat';
+  document.getElementById('mainAudioBtn').classList.remove('playing');
+
+  // Update hero SVG
+  updateHeroSvg(day);
+
+  // Update facts
+  const fs = document.getElementById('factStrip');
+  fs.innerHTML = (currentAnimal.facts || []).map(f => `<div class="fact-chip">🌿 <span>${f}</span></div>`).join('');
+
+  // Render sections
+  renderVocab(day);
+  renderAnimals(day);
+  renderActivities(day);
+  renderSongs(day);
+}
+
+// Captura o SVG original da tartaruga antes de qualquer troca
+const TURTLE_SVG_HTML = document.getElementById('animalSvg').innerHTML;
+
+function updateHeroSvg(day) {
+  const emojis = ['🐢','🦜','🐸','🦋','🦊'];
+  const svgEl = document.getElementById('animalSvg');
+  if (day === 1) {
+    svgEl.innerHTML = TURTLE_SVG_HTML;
+    return;
+  }
+  const size = 120;
+  svgEl.innerHTML = `<div style="font-size:${size}px;line-height:1;text-align:center;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5));animation:turtleWalk 3s ease-in-out infinite">${emojis[day-1]}</div>`;
+}
+
+// ─── RENDER VOCAB ─────────────────────────────────────────────────────────
+function renderVocab(day) {
+  const vocab = VOCAB_ALL[day] || VOCAB_TURTLE;
+  const grid = document.getElementById('vocabGrid');
+  grid.innerHTML = vocab.map(v => `
+    <div class="vocab-card ${v.featured ? 'turtle-featured' : ''}" onclick="speakWord('${v.en}','${v.pt}')">
+      <span class="v-emoji">${v.emoji}</span>
+      <span class="v-en">${v.en}</span>
+      <span class="v-pt">${v.pt}</span>
+      <span class="v-audio-hint">🔊 tap</span>
+    </div>`).join('');
+}
+
+// ─── RENDER COMMANDS ──────────────────────────────────────────────────────
+function renderCommands() {
+  const grid = document.getElementById('commandsGrid');
+  grid.innerHTML = COMMANDS.map((c, i) => `
+    <div class="cmd-card" onclick="speakCommand(COMMANDS[${i}].en, COMMANDS[${i}].pt)">
+      <span class="cmd-emoji">${c.emoji}</span>
+      <span class="cmd-en">${c.en}</span>
+      <span class="cmd-pt">${c.pt}</span>
+      <span class="cmd-context">${c.ctx}</span>
+      <span class="v-audio-hint">🔊</span>
+    </div>`).join('');
+}
+
+// ─── RENDER COLORS ────────────────────────────────────────────────────────
+function renderColors() {
+  const grid = document.getElementById('colorsGrid');
+  grid.innerHTML = COLORS.map(c => `
+    <div class="color-card" style="background:${c.bg}" onclick="speakColor('${c.en}','${c.pt}')">
+      <div class="c-swatch" style="background:${c.hex}"></div>
+      <span class="c-en">${c.en}</span>
+      <span class="c-pt">${c.pt}</span>
+    </div>`).join('');
+}
+
+// ─── RENDER ANIMALS ───────────────────────────────────────────────────────
+function renderAnimals(activeDay) {
+  const row = document.getElementById('animalsRow');
+  row.innerHTML = ANIMALS.map(a => `
+    <div class="animal-mini ${a.day === activeDay ? 'active-day' : ''}" onclick="setDay(${a.day})">
+      <span class="am-emoji">${a.emoji}</span>
+      <span class="am-en">${a.en}</span>
+      <span class="am-pt">${a.pt}</span>
+    </div>`).join('');
+}
+
+// ─── RENDER ACTIVITIES ─────────────────────────────────────────────────────
+function renderActivities(day) {
+  const animal = ANIMALS[day - 1];
+  const list = document.getElementById('activityList');
+  list.innerHTML = (animal.activities || []).map(a => `<li>${a}</li>`).join('');
+}
+
+// ─── RENDER SONGS ──────────────────────────────────────────────────────────
+function renderSongs(day) {
+  const animal = ANIMALS[day - 1];
+  const container = document.getElementById('songsList');
+  container.innerHTML = (animal.songs || []).map((s, i) => `
+    <div class="song-item" onclick="window.open(ANIMALS[${day-1}].songs[${i}].url, '_blank')">
+      <span class="s-emoji">${s.emoji}</span>
+      <span class="s-text">
+        <span class="s-name">${s.name}</span>
+        <span class="s-desc">${s.desc}</span>
+      </span>
+      <span class="s-play">▶</span>
+    </div>`).join('');
+}
+
+// ─── INIT ───────────────────────────────────────────────────────────────────
+renderCommands();
+renderColors();
+setDay(1);
+</script>
+</body>
+</html>
